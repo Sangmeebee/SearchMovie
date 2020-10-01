@@ -6,17 +6,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchmovie.R
+import com.example.searchmovie.data.dataSource.local.LocalDataSourceImpl
+import com.example.searchmovie.data.dataSource.remote.RemoteDataSourceImpl
 import com.example.searchmovie.data.model.Items
-import com.example.searchmovie.data.model.Movie
-import com.example.searchmovie.data.service.RetrofitClient
+import com.example.searchmovie.data.repository.MovieSearchRepositoryImpl
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
     private val movieAdapter = MovieAdapter(this, arrayListOf<Items>())
+    private val movieSearchRepository by lazy {
+        MovieSearchRepositoryImpl(LocalDataSourceImpl(), RemoteDataSourceImpl())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +33,16 @@ class MainActivity : AppCompatActivity() {
             val query = et_query.text.toString()
             if (query.isEmpty()) {
                 showMessage(getString(R.string.no_word))
-            }
-            else{
+            } else {
                 rv_movie.layoutManager?.scrollToPosition(0)
-                callMovieList(query)
+                movieSearchRepository.callMovieList(query, {
+                    if (it.isEmpty()) {
+                        showMessage(getString(R.string.no_result))
+                        movieAdapter.clearItems()
+                    } else {
+                        movieAdapter.clearAndAddItems(it)
+                    }
+                }, { showMessage(it) })
             }
         }
     }
@@ -44,30 +51,4 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
-    private fun callMovieList(query: String) {
-        RetrofitClient.getService().getMovieList(query).enqueue(object :
-            Callback<Movie> {
-            override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
-
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    body?.let {
-                        val items = ArrayList<Items>(it.items)
-                        if (items.isEmpty()) {
-                            movieAdapter.clearItems()
-                            showMessage(getString(R.string.no_result))
-                        } else {
-                            movieAdapter.clearAndAddItems(items)
-                        }
-                    }
-                } else {
-                    showMessage(getString(R.string.net_error))
-                }
-            }
-
-            override fun onFailure(call: Call<Movie>, t: Throwable) {
-                showMessage(t.message.toString())
-            }
-        })
-    }
 }

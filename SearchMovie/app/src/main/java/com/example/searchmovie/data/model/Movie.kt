@@ -8,5 +8,5 @@ data class Movie(
     @SerializedName("total") val total: Int,
     @SerializedName("start") val start: Int,
     @SerializedName("display") val display: Int,
-    @SerializedName("items") val items: List<Items>
+    @SerializedName("items") val items: ArrayList<Items>
 )
