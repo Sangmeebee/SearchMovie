@@ -1,12 +1,13 @@
-package com.example.searchmovie
+package com.example.searchmovie.data.ui
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.example.searchmovie.data.Items
-import com.example.searchmovie.data.Movie
+import com.example.searchmovie.R
+import com.example.searchmovie.data.model.Items
+import com.example.searchmovie.data.model.Movie
 import com.example.searchmovie.service.RetrofitClient
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call

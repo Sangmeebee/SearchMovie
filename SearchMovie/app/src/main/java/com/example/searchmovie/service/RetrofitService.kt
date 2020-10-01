@@ -1,6 +1,6 @@
 package com.example.searchmovie.service
 
-import com.example.searchmovie.data.Movie
+import com.example.searchmovie.data.model.Movie
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers

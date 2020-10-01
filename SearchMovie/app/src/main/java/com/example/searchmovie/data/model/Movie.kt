@@ -1,4 +1,4 @@
-package com.example.searchmovie.data
+package com.example.searchmovie.data.model
 
 import com.google.gson.annotations.SerializedName
 
