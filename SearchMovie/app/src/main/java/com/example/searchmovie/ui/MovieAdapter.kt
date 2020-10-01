@@ -1,4 +1,4 @@
-package com.example.searchmovie.data.ui
+package com.example.searchmovie.ui
 
 import android.content.Context
 import android.content.Intent

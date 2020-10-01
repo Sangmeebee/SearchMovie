@@ -1,4 +1,4 @@
-package com.example.searchmovie.data.ui
+package com.example.searchmovie.ui
 
 import android.os.Bundle
 import android.widget.Toast
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.searchmovie.R
 import com.example.searchmovie.data.model.Items
 import com.example.searchmovie.data.model.Movie
-import com.example.searchmovie.service.RetrofitClient
+import com.example.searchmovie.data.service.RetrofitClient
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback

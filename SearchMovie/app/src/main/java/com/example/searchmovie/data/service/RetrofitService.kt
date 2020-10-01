@@ -1,4 +1,4 @@
-package com.example.searchmovie.service
+package com.example.searchmovie.data.service
 
 import com.example.searchmovie.data.model.Movie
 import retrofit2.Call
