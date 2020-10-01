@@ -7,5 +7,12 @@ class LocalDataSourceImpl : LocalDataSource {
         App.prefs.saveRecentQuery(query)
     }
 
-    override fun readRecentQuery(): ArrayList<String> = App.prefs.readRecentQuery()
+    override fun readRecentQuery(): ArrayList<String> {
+        val queryList = App.prefs.readRecentQuery()
+        val temp = arrayListOf<String>()
+        for(i in queryList.size -1  downTo 0){
+            temp.add(queryList[i])
+        }
+        return temp
+    }
 }
