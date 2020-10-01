@@ -1,22 +1,24 @@
 package com.example.searchmovie.ui
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchmovie.R
-import com.example.searchmovie.data.model.Items
 
-class QueryAdapter :
+class QueryAdapter(private val onListItemSelectedListener: OnListItemSelectedListener) :
     RecyclerView.Adapter<QueryAdapter.QueryViewHolder>() {
 
     private val queryList = arrayListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QueryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.query_list, parent, false)
-        return QueryViewHolder(view)
+        val result = QueryViewHolder(view)
+        view.setOnClickListener {
+            onListItemSelectedListener.selectedItem(queryList[result.bindingAdapterPosition])
+        }
+        return result
     }
 
     override fun onBindViewHolder(holder: QueryViewHolder, position: Int) {

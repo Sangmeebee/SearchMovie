@@ -1,6 +1,7 @@
 package com.example.searchmovie.ui
 
 import android.os.Bundle
+import android.text.Editable
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -13,7 +14,7 @@ import com.example.searchmovie.data.repository.MovieSearchRepository
 import com.example.searchmovie.data.repository.MovieSearchRepositoryImpl
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnListItemSelectedListener {
 
     private val movieAdapter = MovieAdapter(this, arrayListOf<Items>())
     private val movieSearchRepository: MovieSearchRepository by lazy {
@@ -61,6 +62,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun showMessage(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun selectedItem(query: String) {
+        et_query.text = Editable.Factory.getInstance().newEditable(query)
     }
 
 }
