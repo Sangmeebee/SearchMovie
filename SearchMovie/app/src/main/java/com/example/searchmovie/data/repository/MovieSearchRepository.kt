@@ -1,5 +1,11 @@
 package com.example.searchmovie.data.repository
 
-interface MovieSearchRepository {
+import com.example.searchmovie.data.model.Items
 
+interface MovieSearchRepository {
+    fun callMovieList(
+        query: String,
+        success: (ArrayList<Items>) -> Unit,
+        failed: (String) -> Unit
+    )
 }
