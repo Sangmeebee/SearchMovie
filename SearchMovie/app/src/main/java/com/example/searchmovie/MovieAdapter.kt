@@ -1,6 +1,8 @@
 package com.example.searchmovie
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +19,13 @@ class MovieAdapter(private val context: Context, private val movieList: ArrayLis
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
-        return ViewHolder(view, context)
+        val result = ViewHolder(view, context)
+        view.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(movieList[result.bindingAdapterPosition].link)
+            context.startActivity(intent)
+        }
+        return result
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -26,13 +34,13 @@ class MovieAdapter(private val context: Context, private val movieList: ArrayLis
 
     override fun getItemCount(): Int = movieList.size
 
-    fun clearAndAddItems(items: ArrayList<Items>){
+    fun clearAndAddItems(items: ArrayList<Items>) {
         movieList.clear()
         movieList.addAll(items)
         notifyDataSetChanged()
     }
 
-    fun clearItems(){
+    fun clearItems() {
         movieList.clear()
         notifyDataSetChanged()
     }
