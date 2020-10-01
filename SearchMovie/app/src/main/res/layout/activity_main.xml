@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="4">
 
         <EditText
             android:id="@+id/et_query"
@@ -26,6 +26,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Search" />
+
+        <Button
+            android:id="@+id/btn_history"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="History" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -50,6 +50,10 @@ class MainActivity : AppCompatActivity() {
                 }, { showMessage(it) })
             }
         }
+        
+        btn_history.setOnClickListener {
+            // TODO: 2020/10/01 Show DialogFragment 
+        }
     }
 
     private fun showMessage(msg: String) {
