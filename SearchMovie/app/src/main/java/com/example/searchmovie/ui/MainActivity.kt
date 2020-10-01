@@ -50,9 +50,12 @@ class MainActivity : AppCompatActivity() {
                 }, { showMessage(it) })
             }
         }
-        
+
         btn_history.setOnClickListener {
-            // TODO: 2020/10/01 Show DialogFragment 
+            // queryDialog 출력
+            val dialog =
+                RecentQueryDialog.newInstance(movieSearchRepository.readRecentQuery())
+            dialog.show(supportFragmentManager, "query_dialog")
         }
     }
 
