@@ -14,15 +14,15 @@ class Preferences(context: Context) {
         if (dataList.size > 5) {
             dataList.removeAt(0)
         }
-        preferences.edit().putString(TAG, JSONArray(dataList).toString()).apply()
+        preferences.edit().putString(CALLING_RECENT_QUERY, JSONArray(dataList).toString()).apply()
     }
 
     fun readRecentQuery(): ArrayList<String> {
-        val jsonString = preferences.getString(TAG, null)
+        val jsonString = preferences.getString(CALLING_RECENT_QUERY, null)
         val dataList = arrayListOf<String>()
         jsonString?.let {
             val jsonArray = JSONArray(it)
-            for (i in 0..jsonArray.length()) {
+            for (i in 0 until jsonArray.length()) {
                 dataList.add(jsonArray[i].toString())
             }
         }
@@ -30,6 +30,6 @@ class Preferences(context: Context) {
     }
 
     companion object {
-        const val TAG = "CALLING_RECENT_QUERY"
+        const val CALLING_RECENT_QUERY = "recent_query"
     }
 }
