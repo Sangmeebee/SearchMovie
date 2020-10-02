@@ -7,13 +7,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchmovie.R
 
-class QueryAdapter : RecyclerView.Adapter<QueryAdapter.QueryViewHolder>() {
+class QueryAdapter(private val onItemSelectedListener: OnItemSelectedListener) : RecyclerView.Adapter<QueryAdapter.QueryViewHolder>() {
 
     private val queryList = arrayListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QueryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.query_list, parent, false)
         val result = QueryViewHolder(view)
+        view.setOnClickListener {
+            onItemSelectedListener.selectItem(queryList[result.bindingAdapterPosition])
+        }
         return result
     }
 
