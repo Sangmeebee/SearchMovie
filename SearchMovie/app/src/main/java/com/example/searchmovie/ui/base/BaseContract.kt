@@ -1,10 +1,10 @@
 package com.example.searchmovie.ui.base
 
 interface BaseContract {
-    interface View{
-
+    interface View {
+        fun showMessage(msg: String)
     }
-    interface Presenter{
 
+    interface Presenter {
     }
 }

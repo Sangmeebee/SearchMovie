@@ -8,4 +8,19 @@ class MainPresenter(
     private val movieSearchRepository: MovieSearchRepository
 ) :
     BaseContract.Presenter, MainContract.Presenter {
+    override fun searchMovieList(query: String) {
+        if (query.isEmpty()) {
+            view.showEmptyMsg()
+        } else {
+            movieSearchRepository.callMovieList(query, {
+                if (it.isEmpty()) {
+                    view.showNoResult()
+                } else {
+                    view.showResult(it)
+                }
+            }, { view.showMessage(it) })
+        }
+    }
 }
+
+

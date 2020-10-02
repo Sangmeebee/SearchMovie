@@ -2,7 +2,6 @@ package com.example.searchmovie.ui.main
 
 import android.os.Bundle
 import android.text.Editable
-import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchmovie.R
@@ -42,21 +41,7 @@ class MainActivity : OnListItemSelectedListener,
 
         btn_search.setOnClickListener {
             val query = et_query.text.toString()
-            if (query.isEmpty()) {
-                showMessage(getString(R.string.no_word))
-            } else {
-                rv_movie.layoutManager?.scrollToPosition(0)
-
-                //repository로 movieList 호출
-                movieSearchRepository.callMovieList(query, {
-                    if (it.isEmpty()) {
-                        showMessage(getString(R.string.no_result))
-                        movieAdapter.clearItems()
-                    } else {
-                        movieAdapter.clearAndAddItems(it)
-                    }
-                }, { showMessage(it) })
-            }
+            presenter.searchMovieList(query)
         }
 
         btn_history.setOnClickListener {
@@ -67,8 +52,21 @@ class MainActivity : OnListItemSelectedListener,
         }
     }
 
-    private fun showMessage(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    override fun initScroll() {
+        rv_movie.layoutManager?.scrollToPosition(0)
+    }
+
+    override fun showEmptyMsg() {
+        showMessage(getString(R.string.no_word))
+    }
+
+    override fun showNoResult() {
+        showMessage(getString(R.string.no_result))
+        movieAdapter.clearItems()
+    }
+
+    override fun showResult(movieList: ArrayList<Items>) {
+        movieAdapter.clearAndAddItems(movieList)
     }
 
     override fun selectedItem(query: String) {
