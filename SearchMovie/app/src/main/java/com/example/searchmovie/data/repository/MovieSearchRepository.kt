@@ -9,4 +9,7 @@ interface MovieSearchRepository {
         success: (ArrayList<Items>) -> Unit,
         failed: (String) -> Unit
     )
+
+    fun saveRecentQuery(query: String)
+    fun readRecentQuery(): ArrayList<String>
 }

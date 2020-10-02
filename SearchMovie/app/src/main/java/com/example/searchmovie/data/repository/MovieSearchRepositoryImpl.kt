@@ -15,4 +15,10 @@ class MovieSearchRepositoryImpl(
     ) {
         remoteDataSource.callMovieList(query, success, failed)
     }
+
+    override fun saveRecentQuery(query: String) {
+        localDataSource.saveRecentQuery(query)
+    }
+
+    override fun readRecentQuery() = localDataSource.readRecentQuery()
 }
