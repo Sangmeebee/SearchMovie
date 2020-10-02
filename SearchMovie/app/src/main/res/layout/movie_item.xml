@@ -52,7 +52,7 @@
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@{item.pubDate}" />
+                android:text="@{String.valueOf(item.pubDate)}" />
 
             <TextView
                 android:id="@+id/tv_director"
