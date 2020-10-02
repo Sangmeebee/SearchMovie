@@ -45,6 +45,11 @@ class MainActivity : AppCompatActivity() {
                 }, { showMessage(it) })
             }
         }
+
+        btn_history.setOnClickListener {
+            QueryListDialog.newInstance(movieSearchRepository.readRecentQuery())
+                .show(supportFragmentManager, "Query_Dialog")
+        }
     }
 
     private fun showMessage(msg: String) {

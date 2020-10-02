@@ -13,7 +13,11 @@ class MovieSearchRepositoryImpl(
         success: (ArrayList<Items>) -> Unit,
         failed: (String) -> Unit
     ) {
-        remoteDataSource.callMovieList(query, success, failed)
+        remoteDataSource.callMovieList(query, {
+            success(it)
+            saveRecentQuery(query)
+        }, failed)
+
     }
 
     override fun saveRecentQuery(query: String) {
