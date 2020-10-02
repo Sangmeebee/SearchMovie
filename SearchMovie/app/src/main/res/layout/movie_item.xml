@@ -1,55 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="5dp">
-    <!--image, title, userRating, pubData, director, actor -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/iv_poster"
-        android:layout_width="100dp"
-        android:layout_height="150dp"
-        android:scaleType="centerCrop" />
+    <data>
+
+        <variable
+            name="item"
+            type="com.example.searchmovie.data.model.Items" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp">
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <!--image, title, userRating, pubData, director, actor -->
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/iv_poster"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            bind:imageUrl="@{item.image}" />
 
-        <RatingBar
-            android:id="@+id/rb_grade_rating"
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:isIndicator="true"
-            android:max="5"
-            android:numStars="5"
-            android:stepSize="0.5" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp">
 
-        <TextView
-            android:id="@+id/tv_date"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@{item.title}" />
 
-        <TextView
-            android:id="@+id/tv_director"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            <RatingBar
+                android:id="@+id/rb_grade_rating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:isIndicator="true"
+                android:max="5"
+                android:numStars="5"
+                android:stepSize="0.5"
+                bind:rating="@{item.userRating}" />
 
-        <TextView
-            android:id="@+id/tv_actor"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@{item.pubDate}" />
+
+            <TextView
+                android:id="@+id/tv_director"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@{item.director}" />
+
+            <TextView
+                android:id="@+id/tv_actor"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@{item.actor}" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</layout>
