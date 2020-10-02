@@ -1,9 +1,8 @@
-package com.example.searchmovie.ui
+package com.example.searchmovie.ui.main
 
 import android.os.Bundle
 import android.text.Editable
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchmovie.R
@@ -12,9 +11,14 @@ import com.example.searchmovie.data.dataSource.remote.RemoteDataSourceImpl
 import com.example.searchmovie.data.model.Items
 import com.example.searchmovie.data.repository.MovieSearchRepository
 import com.example.searchmovie.data.repository.MovieSearchRepositoryImpl
+import com.example.searchmovie.ui.MovieAdapter
+import com.example.searchmovie.ui.OnListItemSelectedListener
+import com.example.searchmovie.ui.RecentQueryDialog
+import com.example.searchmovie.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), OnListItemSelectedListener {
+class MainActivity : OnListItemSelectedListener,
+    BaseActivity<MainContract.Presenter>(R.layout.activity_main), MainContract.View {
 
     private val movieAdapter = MovieAdapter(this, arrayListOf<Items>())
     private val movieSearchRepository: MovieSearchRepository by lazy {
@@ -23,9 +27,12 @@ class MainActivity : AppCompatActivity(), OnListItemSelectedListener {
         )
     }
 
+    override val presenter by lazy {
+        MainPresenter(this, movieSearchRepository)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         rv_movie.apply {
             adapter = movieAdapter
