@@ -10,6 +10,7 @@ import com.example.searchmovie.data.dataSource.remote.RemoteDataSourceImpl
 import com.example.searchmovie.data.model.Items
 import com.example.searchmovie.data.repository.MovieSearchRepository
 import com.example.searchmovie.data.repository.MovieSearchRepositoryImpl
+import com.example.searchmovie.databinding.ActivityMainBinding
 import com.example.searchmovie.ui.MovieAdapter
 import com.example.searchmovie.ui.OnListItemSelectedListener
 import com.example.searchmovie.ui.RecentQueryDialog
@@ -17,7 +18,8 @@ import com.example.searchmovie.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : OnListItemSelectedListener,
-    BaseActivity<MainContract.Presenter>(R.layout.activity_main), MainContract.View {
+    BaseActivity<MainContract.Presenter, ActivityMainBinding>(R.layout.activity_main),
+    MainContract.View {
 
     private val movieAdapter = MovieAdapter(this, arrayListOf<Items>())
     private val movieSearchRepository: MovieSearchRepository by lazy {
@@ -33,27 +35,28 @@ class MainActivity : OnListItemSelectedListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding.activity = this
+
         rv_movie.apply {
             adapter = movieAdapter
             setHasFixedSize(true)
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
         }
+    }
 
-        btn_search.setOnClickListener {
-            val query = et_query.text.toString()
-            presenter.searchMovieList(query)
-        }
+    fun searchMovieList() {
+        val query = binding.etQuery.text.toString()
+        presenter.searchMovieList(query)
+    }
 
-        btn_history.setOnClickListener {
-            // queryDialog 출력
-            val dialog =
-                RecentQueryDialog.newInstance(movieSearchRepository.readRecentQuery())
-            dialog.show(supportFragmentManager, "query_dialog")
-        }
+    fun showQueryDialog() {
+        val dialog =
+            RecentQueryDialog.newInstance(movieSearchRepository.readRecentQuery())
+        dialog.show(supportFragmentManager, "query_dialog")
     }
 
     override fun initScroll() {
-        rv_movie.layoutManager?.scrollToPosition(0)
+        binding.rvMovie.layoutManager?.scrollToPosition(0)
     }
 
     override fun showEmptyMsg() {
@@ -70,7 +73,7 @@ class MainActivity : OnListItemSelectedListener,
     }
 
     override fun selectedItem(query: String) {
-        et_query.text = Editable.Factory.getInstance().newEditable(query)
+        binding.etQuery.text = Editable.Factory.getInstance().newEditable(query)
     }
 
 }
