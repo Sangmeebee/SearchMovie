@@ -56,10 +56,20 @@ class MainActivity : OnListItemSelectedListener, AppCompatActivity() {
                 }
             }
         })
+
+        vm.showDialog.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback(){
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                showTitleDialog()
+            }
+        })
     }
 
     override fun selectedItem(query: String) {
         binding.etQuery.text = Editable.Factory.getInstance().newEditable(query)
     }
 
+    private fun showTitleDialog() {
+        val titleDialog = RecentQueryDialog()
+        titleDialog.show(supportFragmentManager, "title_history_dialog")
+    }
 }

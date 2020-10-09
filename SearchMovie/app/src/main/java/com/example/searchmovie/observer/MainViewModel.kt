@@ -12,6 +12,7 @@ class MainViewModel {
     val query = ObservableField<String>()
     val movieList = ObservableField<List<Items>>()
     val showToast = ObservableField<Unit>()
+    val showDialog = ObservableField<Unit>()
     var queryState = ""
 
     fun callMovieList() {
@@ -38,4 +39,6 @@ class MainViewModel {
             })
         }
     }
+
+    fun callDialog() = showDialog.notifyChange()
 }
