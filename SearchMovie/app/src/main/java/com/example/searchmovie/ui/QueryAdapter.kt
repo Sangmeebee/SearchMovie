@@ -4,21 +4,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchmovie.R
+import com.example.searchmovie.databinding.QueryListBinding
 
-class QueryAdapter(private val onListItemSelectedListener: OnListItemSelectedListener) :
-    RecyclerView.Adapter<QueryAdapter.QueryViewHolder>() {
+class QueryAdapter(private val setQuery: (String) -> Unit) : RecyclerView.Adapter<QueryAdapter.QueryViewHolder>() {
 
     private val queryList = arrayListOf<String>()
-
+    private lateinit var binding: QueryListBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QueryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.query_list, parent, false)
-        val result = QueryViewHolder(view)
-        view.setOnClickListener {
-            onListItemSelectedListener.selectedItem(queryList[result.bindingAdapterPosition])
+        binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.query_list, parent, false)
+        binding.apply {
+            adapter = this@QueryAdapter
         }
-        return result
+        return QueryViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: QueryViewHolder, position: Int) {
@@ -27,16 +27,20 @@ class QueryAdapter(private val onListItemSelectedListener: OnListItemSelectedLis
 
     override fun getItemCount() = queryList.size
 
-    fun clearAndAddQuery(query: ArrayList<String>) {
+    fun clearAndAddQuery(query: List<String>) {
         queryList.clear()
         queryList.addAll(query)
         notifyDataSetChanged()
     }
 
-    class QueryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val tvQuery = view.findViewById<TextView>(R.id.tv_query)
+    fun setSelectedQuery(query: String){
+        setQuery(query)
+    }
+
+    class QueryViewHolder(private val binding: QueryListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(query: String) {
-            tvQuery.text = query
+            binding.query = query
+            binding.tvQuery.text = query
         }
     }
 }

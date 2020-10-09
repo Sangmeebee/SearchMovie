@@ -13,11 +13,14 @@ import com.example.searchmovie.R
 import com.example.searchmovie.databinding.DialogQueryRecentBinding
 import com.example.searchmovie.observer.QueryViewModel
 
-class RecentQueryDialog : DialogFragment() {
+class RecentQueryDialog(setQuery: (String) -> Unit) : DialogFragment() {
 
     lateinit var binding: DialogQueryRecentBinding
     private val vm = QueryViewModel()
-    private val queryAdapter = QueryAdapter()
+    private val queryAdapter = QueryAdapter {
+        setQuery(it)
+        dismiss()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

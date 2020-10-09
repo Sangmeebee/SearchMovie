@@ -1,7 +1,6 @@
 package com.example.searchmovie.ui
 
 import android.os.Bundle
-import android.text.Editable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
@@ -13,7 +12,7 @@ import com.example.searchmovie.extension.toast
 import com.example.searchmovie.observer.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : OnListItemSelectedListener, AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val movieAdapter = MovieAdapter()
     private lateinit var binding: ActivityMainBinding
@@ -57,19 +56,15 @@ class MainActivity : OnListItemSelectedListener, AppCompatActivity() {
             }
         })
 
-        vm.showDialog.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback(){
+        vm.showDialog.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 showTitleDialog()
             }
         })
     }
 
-    override fun selectedItem(query: String) {
-        binding.etQuery.text = Editable.Factory.getInstance().newEditable(query)
-    }
-
     private fun showTitleDialog() {
-        val titleDialog = RecentQueryDialog()
+        val titleDialog = RecentQueryDialog { vm.query.set(it) }
         titleDialog.show(supportFragmentManager, "title_history_dialog")
     }
 }
