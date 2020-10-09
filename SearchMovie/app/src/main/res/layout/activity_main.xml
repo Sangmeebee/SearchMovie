@@ -6,15 +6,15 @@
     <data>
 
         <variable
-            name="activity"
-            type="com.example.searchmovie.ui.main.MainActivity" />
+            name="vm"
+            type="com.example.searchmovie.observer.MainViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.main.MainActivity">
+        tools:context=".ui.MainActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,14 +27,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:inputType="text" />
+                android:inputType="text"
+                android:text="@={vm.query}" />
 
             <Button
                 android:id="@+id/btn_search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="@{() -> activity.searchMovieList()}"
+                android:onClick="@{() -> vm.callMovieList()}"
                 android:text="Search" />
 
             <Button
@@ -42,7 +43,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="@{() -> activity.showQueryDialog()}"
                 android:text="History" />
         </LinearLayout>
 

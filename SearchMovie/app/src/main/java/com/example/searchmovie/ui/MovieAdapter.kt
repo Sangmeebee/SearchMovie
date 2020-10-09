@@ -1,6 +1,5 @@
 package com.example.searchmovie.ui
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -11,9 +10,10 @@ import com.example.searchmovie.R
 import com.example.searchmovie.data.model.Items
 import com.example.searchmovie.databinding.MovieItemBinding
 
-class MovieAdapter(private val context: Context, private val movieList: ArrayList<Items>) :
+class MovieAdapter :
     RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
+    private val movieList = arrayListOf<Items>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DataBindingUtil.inflate<MovieItemBinding>(
             LayoutInflater.from(parent.context),
@@ -25,7 +25,7 @@ class MovieAdapter(private val context: Context, private val movieList: ArrayLis
         binding.root.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(movieList[result.bindingAdapterPosition].link)
-            context.startActivity(intent)
+            parent.context.startActivity(intent)
         }
         return result
     }
@@ -36,7 +36,7 @@ class MovieAdapter(private val context: Context, private val movieList: ArrayLis
 
     override fun getItemCount(): Int = movieList.size
 
-    fun clearAndAddItems(items: ArrayList<Items>) {
+    fun clearAndAddItems(items: List<Items>) {
         movieList.clear()
         movieList.addAll(items)
         notifyDataSetChanged()
