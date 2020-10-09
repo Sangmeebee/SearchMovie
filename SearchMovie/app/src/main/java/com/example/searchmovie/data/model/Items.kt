@@ -11,5 +11,5 @@ data class Items(
     @SerializedName("pubDate") val pubDate: Int,
     @SerializedName("director") val director: String,
     @SerializedName("actor") val actor: String,
-    @SerializedName("userRating") val userRating: Double
+    @SerializedName("userRating") val userRating: Float
 )
