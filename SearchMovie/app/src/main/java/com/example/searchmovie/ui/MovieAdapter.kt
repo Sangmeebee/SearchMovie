@@ -1,7 +1,5 @@
 package com.example.searchmovie.ui
 
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -10,8 +8,7 @@ import com.example.searchmovie.R
 import com.example.searchmovie.data.model.Items
 import com.example.searchmovie.databinding.MovieItemBinding
 
-class MovieAdapter :
-    RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     private val movieList = arrayListOf<Items>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,13 +18,7 @@ class MovieAdapter :
             parent,
             false
         )
-        val result = ViewHolder(binding)
-        binding.root.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(movieList[result.bindingAdapterPosition].link)
-            parent.context.startActivity(intent)
-        }
-        return result
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
