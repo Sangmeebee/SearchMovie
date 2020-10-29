@@ -5,20 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.Observable
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchmovie.R
 import com.example.searchmovie.databinding.DialogQueryRecentBinding
-import com.example.searchmovie.observer.QueryViewModel
+import com.example.searchmovie.observer.MainViewModel
 
-class RecentQueryDialog(setQuery: (String) -> Unit) : DialogFragment() {
+class RecentQueryDialog : DialogFragment() {
 
     lateinit var binding: DialogQueryRecentBinding
-    private val vm = QueryViewModel()
+    private val vm by activityViewModels<MainViewModel>()
     private val queryAdapter = QueryAdapter {
-        setQuery(it)
+        vm.query.value = it
         dismiss()
     }
 
@@ -37,10 +38,10 @@ class RecentQueryDialog(setQuery: (String) -> Unit) : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeCallBack()
+        observerCallback()
 
         //최근검색 목록 불러오기
-        vm.queryList.get()?.let { queryAdapter.clearAndAddQuery(it) }
+        vm.queryList.value?.let { queryAdapter.clearAndAddQuery(it) }
 
         binding.rvQueryList.apply {
             setHasFixedSize(true)
@@ -49,10 +50,9 @@ class RecentQueryDialog(setQuery: (String) -> Unit) : DialogFragment() {
         }
     }
 
-    private fun observeCallBack() {
-
-        vm.isVisible.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+    private fun observerCallback() {
+        vm.showDialog.observe(viewLifecycleOwner, Observer {
+            if (!it) {
                 dismiss()
             }
         })

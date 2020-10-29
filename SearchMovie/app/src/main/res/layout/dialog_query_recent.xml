@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.example.searchmovie.observer.QueryViewModel" />
+            type="com.example.searchmovie.observer.MainViewModel" />
     </data>
 
     <LinearLayout
