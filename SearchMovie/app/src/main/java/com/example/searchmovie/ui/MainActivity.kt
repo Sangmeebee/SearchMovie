@@ -1,9 +1,10 @@
 package com.example.searchmovie.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.Observable
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchmovie.R
@@ -16,11 +17,12 @@ class MainActivity : AppCompatActivity() {
 
     private val movieAdapter = MovieAdapter()
     private lateinit var binding: ActivityMainBinding
-    private val vm = MainViewModel()
+    private val vm by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.lifecycleOwner = this
         binding.vm = vm
 
         observeCallback()
@@ -33,20 +35,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeCallback() {
-        vm.movieList.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                vm.movieList.get()?.let {
-                    if (it.isEmpty()) {
-                        movieAdapter.clearItems()
-                    } else {
-                        movieAdapter.clearAndAddItems(it)
-                    }
+
+        vm.movieList.observe(this, Observer {
+            vm.movieList.value?.let {
+                if (it.isEmpty()) {
+                    movieAdapter.clearItems()
+                } else {
+                    movieAdapter.clearAndAddItems(it)
                 }
             }
         })
 
-        vm.showToast.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+        vm.showToast.observe(this, Observer {
+            if(it){
                 when (vm.queryState) {
                     "empty" -> toast(R.string.no_word)
                     "success" -> toast(R.string.success)
@@ -56,15 +57,14 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        vm.showDialog.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+        vm.showDialog.observe(this, Observer {
+            if(it){
                 showTitleDialog()
             }
         })
     }
 
     private fun showTitleDialog() {
-        val titleDialog = RecentQueryDialog { vm.query.set(it) }
-        titleDialog.show(supportFragmentManager, "title_history_dialog")
+        RecentQueryDialog().show(supportFragmentManager, "title_history_dialog")
     }
 }
